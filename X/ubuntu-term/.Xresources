@@ -1,7 +1,7 @@
 ! URxvt
 
 ! General settings
-URxvt.saveLines: 2000
+URxvt.saveLines: 20000
 URxvt.scrollBar: False
 URxvt.scrollstyle: rxvt
 URxvt.termName: xterm-256color
@@ -59,7 +59,7 @@ URxvt.letterSpace: -1
 !URxvt.letterSpace: -1
 
 !Manospace
-!URxvt.font: xft:Monospace-10
+!URxvt.font: xft:Monospace-11
 !URxvt.letterSpace: -1
 
 !Terminus
@@ -67,7 +67,7 @@ URxvt.letterSpace: -1
 
 ! to match gnome-terminal "Linux console" scheme
 ! foreground/background
-URxvt*background: #000000
+URxvt*background: #300A24
 URxvt*foreground: #C5C8C6
 ! black
 URxvt.color0  : #000000
