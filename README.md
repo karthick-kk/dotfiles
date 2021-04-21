@@ -24,3 +24,8 @@ To setup ubuntu default like terminal
 $ cp /tmp/kkdots/X/ubuntu-term/.Xresources $HOME/
 $ xrdb -load ~/.Xresources
 ```
+## Conky Personalized Config
+
+* Install conky
+* Copy conky.conf to ~/.config/conky/
+* Create/Copy autostart entry ~/.config/autostart/
