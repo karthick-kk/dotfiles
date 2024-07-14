@@ -1,0 +1,31 @@
+#import = [
+#    "~/.config/alacritty/themes/google.toml"
+#]
+
+[font]
+size = 13
+
+[font.normal]
+family = "Monospace"
+
+[window]
+decorations = "full"
+opacity = 0.8
+blur = true
+dimensions = { columns = 120, lines = 32 }
+
+[scrolling]
+history = 20000
+
+[window.padding]
+x = 7
+y = 0
+
+[selection]
+save_to_clipboard = true 
+
+[mouse]
+bindings = [
+{ mouse = "Right", action = "Paste" },
+]
+
