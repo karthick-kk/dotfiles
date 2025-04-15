@@ -1,0 +1,60 @@
+# i3blocks configuration file
+#
+# The i3blocks man page describes the usage of the binary,
+# and its website describes the configuration:
+#
+#     https://vivien.github.io/i3blocks
+# Global properties
+separator=true
+separator_block_width=15
+
+# [documentation]
+# full_text=Documentation
+# website=https://vivien.github.io/i3blocks
+# command=xdg-open "$website"
+# color=#f12711
+# [greetings]
+# color=#f5af19
+# command=echo "$(whoami)@$(hostname)"
+# interval=once
+
+[gammastep]
+command=pgrep -x gammastep > /dev/null && echo "<span color='#FFD700'><span font_size='large'>🌓</span>:</span> ON" || echo "<span color='#666666'><span font_size='large'>🌓</span>:</span> OFF"
+interval=5
+signal=10
+markup=pango
+
+[cpu_usage]
+command=echo "<span color='#FFFFFF'><span font_size='large'>🖳</span>:</span> $(/home/kk/.config/i3blocks/scripts/cpu_usage.sh)"
+interval=5
+markup=pango
+
+[cpu_temp]
+command=echo "<span color='#FFFFFF'><span font_size='large'>🌡</span>:</span> $(/home/kk/.config/i3blocks/scripts/cpu_temp.sh)"
+interval=5
+markup=pango
+
+[memory]
+command=echo "<span color='#FFFFFF'><span font_size='large'>🧮</span>:</span> $(free -h | awk '/^Mem/ {print $3 "/" $2}')"
+interval=5
+markup=pango
+
+# [mem_temp]
+# label= MEM:
+# command=sensors | grep -i 'DIMM' | awk '{print $2}'
+# interval=5
+
+# [gpu_temp]
+# label= GPU:
+# command=nvidia-smi -q -d TEMPERATURE | grep "GPU Current Temp"| awk -F: '{print $NF}'
+# interval=5
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1
+
+
+[network]
+command=nmcli -t -f DEVICE,STATE dev | grep -q "enp37s0:connected" && echo "" || (nmcli -t -f WIFI g | grep -q "enabled" && echo "" || echo "睊")
+interval=5
+color=nmcli -t -f DEVICE,STATE dev | grep -q "enp37s0:connected" && echo "#00FF00" || (nmcli -t -f WIFI g | grep -q "enabled" && echo "#00FF00" || echo "#FF0000")
