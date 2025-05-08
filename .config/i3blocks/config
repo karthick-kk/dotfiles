@@ -8,15 +8,20 @@
 separator=true
 separator_block_width=15
 
-# [documentation]
-# full_text=Documentation
-# website=https://vivien.github.io/i3blocks
-# command=xdg-open "$website"
-# color=#f12711
-# [greetings]
-# color=#f5af19
-# command=echo "$(whoami)@$(hostname)"
-# interval=once
+# Window title block positioned for true centering
+[window_title]
+command=~/.config/i3blocks/scripts/window_title.sh
+interval=1
+align=center
+markup=pango
+min_width=800
+separator_block_width=0
+separator=false
+
+# Status bar blocks
+[bluetooth]
+command=~/.config/i3blocks/scripts/bluetooth_battery
+interval=30
 
 [gammastep]
 command=pgrep -x gammastep > /dev/null && echo "<span color='#FFD700'><span font_size='large'>🌓</span>:</span> ON" || echo "<span color='#666666'><span font_size='large'>🌓</span>:</span> OFF"
@@ -49,12 +54,17 @@ markup=pango
 # command=nvidia-smi -q -d TEMPERATURE | grep "GPU Current Temp"| awk -F: '{print $NF}'
 # interval=5
 
+[volume]
+command=~/.config/i3blocks/scripts/volume.sh
+interval=1
+signal=10
+markup=pango
+
 [time]
 command=date '+%Y-%m-%d %H:%M:%S'
 interval=1
 
-
 [network]
-command=nmcli -t -f DEVICE,STATE dev | grep -q "enp37s0:connected" && echo "" || (nmcli -t -f WIFI g | grep -q "enabled" && echo "" || echo "睊")
+command=nmcli -t -f DEVICE,STATE dev | grep -q "enp37s0:connected" && echo "" || (nmcli -t -f WIFI g | grep -q "enabled" && echo "" || echo "睊")
 interval=5
 color=nmcli -t -f DEVICE,STATE dev | grep -q "enp37s0:connected" && echo "#00FF00" || (nmcli -t -f WIFI g | grep -q "enabled" && echo "#00FF00" || echo "#FF0000")

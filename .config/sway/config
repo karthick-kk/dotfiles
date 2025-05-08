@@ -14,7 +14,8 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term ghostty
+#set $term ghostty
+set $term termius --new-window
 # Your preferred application launcher
 set $menu wofi
 
@@ -45,7 +46,7 @@ for_window [app_id="com.github.wwmm.easyeffects"] move container to workspace nu
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/kk/Pictures/jack-b-sV65Qzj0GQM-unsplash.jpg fill
+output * bg $HOME/Pictures/jack-b-sV65Qzj0GQM-unsplash.jpg fill
 #
 # Example configuration:
 #
@@ -106,7 +107,7 @@ output HDMI-A-2 scale 1.33
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+r reload
+    bindsym $mod+Shift+r exec $HOME/.config/sway/restart_sway.sh
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -122,13 +123,13 @@ output HDMI-A-2 scale 1.33
 
     # Keybinding to toggle Gammastep and refresh i3blocks
     # bindsym $mod+Shift+t exec "pgrep -x gammastep > /dev/null && pkill gammastep || gammastep -O 4500 &; pkill -RTMIN+10 i3blocks"
-    bindsym $mod+Shift+t exec /home/kk/.config/sway/gammastep_toggle.sh
+    bindsym $mod+Shift+t exec $HOME/.config/sway/gammastep_toggle.sh
 
     # Keybinding to cycle through all open applications across all workspaces ------ Using Native
-    #bindsym $mod+Shift+Tab exec /home/kk/.config/sway/cycle_windows.sh
+    #bindsym $mod+Shift+Tab exec $HOME/.config/sway/cycle_windows.sh
 
     # Keybinding to open application switcher with thumbnails ------ Using Wofi
-    bindsym $mod+Shift+Tab exec /home/kk/.config/sway/app_switcher.sh
+    bindsym $mod+Shift+Tab exec $HOME/.config/sway/app_switcher.sh
 
 #
 # Moving around:

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DEVICE_PATH=$(upower -e | grep headset || upower -e | grep dev_xx_xx)  # adjust grep if needed
+
+if [ -n "$DEVICE_PATH" ]; then
+    BATTERY=$(upower -i "$DEVICE_PATH" | awk '/percentage/ { print $2 }')
+    echo "🎧 $BATTERY"
+else
+    echo "🎧 N/A"
+fi
