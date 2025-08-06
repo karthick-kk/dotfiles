@@ -77,4 +77,4 @@ fi
 
 # Output with pango markup
 # echo "$conn_type <span color='#00FF00'>↓$down_icon</span> <span color='#FF6600'>↑$up_icon</span> ${download}/${upload} KB/s"
-echo "$conn_type <span color='#00FF00' size='small' rise='4096'>↓$down_icon</span> <span color='#FF6600' size='small' rise='4096'>↑$up_icon</span>"
+echo "$conn_type <span color='#008B8B' size='small' rise='4096'>↓$down_icon</span> <span color='#DC143C' size='small' rise='4096'>↑$up_icon</span>"
