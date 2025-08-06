@@ -14,8 +14,8 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-#set $term ghostty
-set $term termius --new-window
+set $term ghostty
+# set $term warpt
 # Your preferred application launcher
 set $menu wofi
 
@@ -35,8 +35,8 @@ default_border pixel 2
 
 # Assign apps to workspaces
 # Use `xprop` or `swaymsg -t get_tree` command to find class name of a running application
-for_window [class="floorp"] move container to workspace number 3; workspace number 3
 for_window [app_id="floorp"] move container to workspace number 3; workspace number 3
+for_window [class="floorp"] move container to workspace number 3; workspace number 3
 for_window [class="Code"] move container to workspace number 5; workspace number 5
 for_window [class="Brave-browser"] move container to workspace number 1; workspace number 1
 for_window [class="Ferdium"] move container to workspace number 9; workspace number 9
@@ -46,7 +46,7 @@ for_window [app_id="com.github.wwmm.easyeffects"] move container to workspace nu
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg $HOME/Pictures/jack-b-sV65Qzj0GQM-unsplash.jpg fill
+output * bg /home/kk/Pictures/jack-b-sV65Qzj0GQM-unsplash.jpg fill
 #
 # Example configuration:
 #
@@ -96,6 +96,8 @@ output HDMI-A-2 scale 1.33
     bindsym $mod+d exec wofi --show=drun
     #bindsym $mod+d exec $menu
 
+    # Toggle nwg-dock
+    bindsym $mod+x exec nwg-dock -p left -f -x
     # Lock the screen
     bindsym $mod+Escape exec swaylock
 
@@ -107,7 +109,7 @@ output HDMI-A-2 scale 1.33
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+r exec $HOME/.config/sway/restart_sway.sh
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -123,13 +125,13 @@ output HDMI-A-2 scale 1.33
 
     # Keybinding to toggle Gammastep and refresh i3blocks
     # bindsym $mod+Shift+t exec "pgrep -x gammastep > /dev/null && pkill gammastep || gammastep -O 4500 &; pkill -RTMIN+10 i3blocks"
-    bindsym $mod+Shift+t exec $HOME/.config/sway/gammastep_toggle.sh
+    bindsym $mod+Shift+t exec /home/kk/.config/sway/gammastep_toggle.sh
 
     # Keybinding to cycle through all open applications across all workspaces ------ Using Native
-    #bindsym $mod+Shift+Tab exec $HOME/.config/sway/cycle_windows.sh
+    #bindsym $mod+Shift+Tab exec /home/kk/.config/sway/cycle_windows.sh
 
     # Keybinding to open application switcher with thumbnails ------ Using Wofi
-    bindsym $mod+Shift+Tab exec $HOME/.config/sway/app_switcher.sh
+    bindsym $mod+Shift+Tab exec /home/kk/.config/sway/app_switcher.sh
 
 #
 # Moving around:
@@ -263,30 +265,26 @@ bindsym $mod+r mode "resize"
     # Special key to take a screenshot of selected area and copy to clipboard
     bindsym Shift+Print exec slurp | grim -g - - | tee ~/Pictures/$(date +%s).png | wl-copy
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+# Status Bar disabled - using standalone Waybar instead
+# 
+# To configure the bar, edit ~/.config/waybar/config
+# Read `man 5 waybar` for more information about Waybar configuration.
 
-bar {
-    position top
-    status_command i3blocks
-    font pango:Monaco, FontAwesome 11  # Increase the font size here
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    #status_command while date +'%Y-%m-%d %X'; do sleep 1; done
-    colors {
-        background #000000
-        statusline #ffffff
-        separator #666666
-
-        focused_workspace  #4c7899 #285577 #ffffff
-        active_workspace   #333333 #5f676a #ffffff
-        inactive_workspace #333333 #222222 #888888
-        urgent_workspace   #2f343a #900000 #ffffff
-        binding_mode       #2f343a #900000 #ffffff
-    }
-}
+# bar {
+#     position top
+#     status_command waybar
+#     font pango:JetBrains Mono, FontAwesome 10
+#     colors {
+#         background #000000
+#         statusline #ffffff
+#         separator #666666
+#         focused_workspace  #4c7899 #285577 #ffffff
+#         active_workspace   #333333 #5f676a #ffffff
+#         inactive_workspace #333333 #222222 #888888
+#         urgent_workspace   #2f343a #900000 #ffffff
+#         binding_mode       #2f343a #900000 #ffffff
+#     }
+# }
 
 # GAPS CONFIGURATION - FIXED
 # Use a very small value in physical pixels to make gaps minimal
@@ -305,3 +303,6 @@ include /etc/sway/config.d/*
 exec --no-startup-id /usr/bin/lxpolkit
 exec --no-startup-id dunst
 exec_always autotiling
+exec_always "pkill waybar; waybar"
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets,ssh,pkcs11
+# exec --no-startup-id nwg-dock -r -f -p left
