@@ -6,12 +6,12 @@
   "reload_style_on_change":true,
 
   "custom/logo": {
-    "format": "",
+  "format": "<span font='16'></span>",
     "tooltip": false
   },
 
   "sway/workspaces": {
-    "format": "{name}",
+  "format": "<span font='12'>{name}</span>",
     "format-icons": {
       "1": "1",
       "2": "2", 
@@ -26,13 +26,6 @@
       "urgent": "",
       "focused": "",
       "default": ""
-    },
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": []
     }
   },
 
@@ -149,8 +142,8 @@
   },
 
   "cpu": {
-      "interval": 1,
-      "format": " {usage}%",
+  "interval": 1,
+  "format": " {usage}%",
       "min-length": 6,
       "max-length": 6,
       "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
@@ -223,10 +216,10 @@
   },
 
   "custom/gammastep": {
-    "format": "◑ {}",
-    "exec": "if pgrep -x gammastep > /dev/null; then echo 'ON'; else echo 'OFF'; fi",
-    "interval": 5,
-    "on-click": "~/.config/sway/gammastep_toggle.sh"
+  "format": "{}",
+  "exec": "if pgrep -x gammastep > /dev/null; then echo '󰖨'; else echo '󰍹'; fi",
+  "interval": 5,
+  "on-click": "~/.config/sway/gammastep_toggle.sh"
   },
 
   "custom/network-traffic": {

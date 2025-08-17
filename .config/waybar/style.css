@@ -2,13 +2,17 @@
     border: none;
     font-size: 16px;
     font-family: "JetBrainsMono Nerd Font,JetBrainsMono NF" ;
-    min-height: 20px;
+    min-height: 16px;
 }
 
 window#waybar {
-  background: #000000;
-  margin: 3px;
- }
+  /* background: #000000; */
+  background-color: transparent;
+  margin: 0px;
+  /* background: rgba(17, 17, 27, 0.7); */
+  transition-property: background-color;
+	transition-duration: .5s; 
+}
 
 #custom-logo {
   padding: 0 2px;
@@ -69,8 +73,10 @@ window#waybar {
 
 
 
-#clock{
-  color: #5fd1fa;
+#clock {
+    color: #FFA94D; /* light orange, legible on black */
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 #battery.charging {
@@ -87,8 +93,10 @@ window#waybar {
     background-color: #f53c3c;
     color: #ffffff;
     animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
+    /* animation-duration: 0.5s; */
+    animation-duration: 3.0s;
+    /* animation-timing-function: linear; */
+    animation-timing-function: steps(12);
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
@@ -103,27 +111,27 @@ window#waybar {
 
 /* Workspace styling */
 #workspaces {
-    padding: 0;
+    padding: 1;
 }
 
 #workspaces button {
-    padding: 1px 6px;
+  padding: 0px 2px;
     margin: 0 1px;
     border-radius: 6px;
     background-color: transparent;
     color: #888888;
     border: 0px solid #444444;
     transition: all 0.3s ease;
-    min-height: 16px;
+  min-height: 0px;
 }
 
 #workspaces button.focused {
-    background-color: #4c7899;
+    background-color: #7a0000;
     color: #ffffff;
-    border: 1px solid #285577;
+    border: 1px solid #4a0000;
     font-weight: bold;
-    padding: 1px 6px;
-    min-height: 12px;
+  padding: 0px 6px;
+  min-height: 0px;
 }
 
 #workspaces button.urgent {

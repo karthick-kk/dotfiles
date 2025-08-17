@@ -1,3 +1,8 @@
+smart_borders on
+# Set border colors to teal
+client.focused          #008080 #008080 #008080 #008080
+client.unfocused        #888888 #888888 #888888 #888888
+client.urgent           #008080 #008080 #008080 #008080
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
@@ -29,9 +34,7 @@ hide_edge_borders smart
 
 # Set borders for all windows - IMPORTANT FOR GAPS TO WORK
 default_border pixel 2
-
-# Remove this line as it might be conflicting
-# for_window [class=".*"] border pixel 1
+for_window [class=".*"] border pixel 2
 
 # Assign apps to workspaces
 # Use `xprop` or `swaymsg -t get_tree` command to find class name of a running application
@@ -46,7 +49,7 @@ for_window [app_id="com.github.wwmm.easyeffects"] move container to workspace nu
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/kk/Pictures/jack-b-sV65Qzj0GQM-unsplash.jpg fill
+output * bg /home/kk/Pictures/kian-lem-xsGDJzhESVo-unsplash.jpg fill
 #
 # Example configuration:
 #
@@ -59,10 +62,14 @@ output HDMI-A-2 scale 1.33
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
+# exec_always swayidle -w \
+#     timeout 600 'waylock -init-color 0x000000' \
+#     timeout 420 'swaymsg "output * power off"' \
+#     resume 'swaymsg "output * power on"' \
+#     before-sleep 'waylock -init-color 0x000000'
+exec_always swayidle -w \
+    timeout 420 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"' \
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -99,7 +106,7 @@ output HDMI-A-2 scale 1.33
     # Toggle nwg-dock
     bindsym $mod+x exec nwg-dock -p left -f -x
     # Lock the screen
-    bindsym $mod+Escape exec swaylock
+    bindsym $mod+Escape exec waylock -init-color 0x000000
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -289,12 +296,12 @@ bindsym $mod+r mode "resize"
 # GAPS CONFIGURATION - FIXED
 # Use a very small value in physical pixels to make gaps minimal
 # The 'px' suffix ensures these are interpreted as physical pixels
-gaps inner 5px
+gaps inner 0px
 gaps outer 0px
 
 # Make gaps visible only when you have more than one window
-smart_gaps on
-smart_borders on
+smart_gaps off
+# smart_borders off
 
 # Remove the include statement for gaps.conf as we're setting it directly here
 
