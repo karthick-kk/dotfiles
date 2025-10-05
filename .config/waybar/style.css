@@ -1,44 +1,97 @@
-* {
-    border: none;
-    font-size: 16px;
-    font-family: "JetBrainsMono Nerd Font,JetBrainsMono NF" ;
-    min-height: 16px;
+/* Minimal fallback style to ensure Waybar can parse the CSS and start */
+window#waybar { background-color: transparent; }
+
+/* Workspace appearance: circular icons inside rounded-rectangle buttons (safe, incremental)
+   - Keep the existing button layout so Waybar doesn't fail
+   - Make the icon itself a centered circle with a subtle ring
+   - Active workspace shows a filled rounded-rectangle background and a brighter ring */
+#workspaces button,
+#custom-workspaces button {
+  /* Thinner rounded-rectangle (pill) workspace buttons */
+  padding: 2px 8px;            /* slightly more horizontal padding for pill look */
+  margin: 0px 6px;             /* spacing between items */
+  min-width: 28px;             /* ensure minimum hit target */
+  min-height: 22px;            /* keep the bar compact */
+  font-size: 12px;             /* slightly smaller text */
+  border-radius: 10px;         /* more rounded rectangle (pill-like) */
+  background-color: rgba(64,64,64,0.6);
+  color: #bbbbbb;
+  border: 1px solid #444444;
 }
 
-window#waybar {
-  /* background: #000000; */
-  background-color: transparent;
-  margin: 0px;
-  /* background: rgba(17, 17, 27, 0.7); */
-  transition-property: background-color;
-	transition-duration: .5s; 
+#workspaces button .workspace-label,
+#custom-workspaces button .workspace-label {
+  /* icon glyph container: let the button shape be the rounded rectangle */
+  min-width: 0px;
+  min-height: 0px;
+  padding: 0 2px;               /* small horizontal padding */
+  border-radius: 8px;           /* inner soft rounding to match outer pill */
+  background: transparent;
+  border: none;
+  font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font", "FiraCode Nerd Font", monospace;
+  font-size: 14px;              /* keep glyph legible */
+  color: inherit;
 }
 
-#custom-logo {
-  padding: 0 2px;
+/* Active workspace: darker rounded rectangle and brighter ring */
+#workspaces button.active,
+#custom-workspaces button.focused {
+  background-color: #7a0000; /* filled rectangle for active */
+  color: #ffffff;
+  border: 1px solid #4a0000;
 }
 
+#workspaces button.active .workspace-label,
+#custom-workspaces button.focused .workspace-label {
+  /* active glyph color */
+  color: #ffffff;
+}
+
+/* Hover: subtle change to ring color for interactivity (box-shadow unsupported) */
+#workspaces button:hover .workspace-label,
+#custom-workspaces button:hover .workspace-label {
+  border-color: rgba(255,255,255,0.24);
+}
+
+/* Hide longer workspace names by reducing their font size so they don't take space */
+#workspaces .workspace-name,
+#custom-workspaces .workspace-name {
+  font-size: 0px;
+  color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* Make window glyphs (rendered via {windows}) visible and distinct */
+#workspaces .workspace-windows,
+#workspaces .windows {
+  font-size: 14px;
+  color: #ffffff;
+  margin-left: 6px;
+  opacity: 0.95;
+}
+
+#workspaces .workspace-windows .window,
+#workspaces .windows .window {
+  margin: 0 2px;
+}
+
+/* Right-side modules: improve spacing and typography */
 .modules-right {
-  padding-left: 5px;
-  border-radius: 15px 0 0 15px;
-  margin-top: 1px;
-  background: #000000;
+  padding-left: 18px; /* more breathing room from edge */
+  font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "CaskaydiaMono Nerd Font", "MesloLGS Nerd Font", monospace;
+  font-size: 16px; /* base text size for modules */
 }
 
-.modules-center {
-  padding: 0 15px;
-  margin-top: 1px;
-  border-radius: 15px 15px 15px 15px;
-  background: #000000;
+/* Give each right-side module clear separation */
+.modules-right .module {
+  margin-left: 14px;  /* larger gap between modules */
+  padding: 0 8px;     /* inner spacing for module content */
+  font-size: 16px; /* reinforce module text size */
 }
 
-.modules-left {
-  border-radius: 0 15px 15px 0;
-  margin-top: 1px;
-  background: #000000;
-}
-
-#battery,
+/* Reduce padding of right-side modules to fit more in the bar */
+/* #battery,
 #custom-clipboard,
 #custom-colorpicker,
 #custom-powerDraw,
@@ -55,99 +108,62 @@ window#waybar {
 #jack,
 #tray,
 #window,
-#clock,
-#custom-gammastep {
-  padding: 0 5px;
-  font-size: 16px;
-}
-#pulseaudio {
-  padding-top: 3px;
-}
-
-#temperature.critical,
-#pulseaudio.muted {
-  color: #FF0000;
-  padding-top: 0;
-}
-
-
-
-
+#workspaces,
 #clock {
-    color: #FFA94D; /* light orange, legible on black */
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  padding: 1px 1px;
+} */
+
+/* Increase button and icon hit targets on the right */
+.modules-right .module button,
+.modules-right button,
+#tray .tray-item,
+#tray img {
+  padding: 8px 14px;      /* comfortable click/tap area */
+  min-width: 40px;        /* wider buttons */
+  min-height: 22px;       /* avoid vertical clipping */
+  font-size: 16px;        /* larger text/icons */
 }
 
-#battery.charging {
-    color: #ffffff;
-    background-color: #26A65B;
+/* Make module icons clearer and larger */
+.modules-right .module .icon,
+.modules-right .module i,
+#clock .icon,
+#pulseaudio .icon,
+#network .icon {
+  font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font", "FiraCode Nerd Font", monospace;
+  font-size: 20px; /* larger icon glyphs */
 }
 
-#battery.warning:not(.charging) {
-    background-color: #ffbe61;
-    color: black;
+/* Specific tweaks for common right-side widgets */
+#clock { color: #FFA94D; font-weight: 600; font-size: 16px; padding: 0 12px; }
+#battery { padding: 0 12px; font-size: 15px; }
+#network { font-size: 15px; padding: 0 12px; }
+#pulseaudio { padding-top: 8px; }
+#pulseaudio button { padding: 8px 12px; min-height: 22px; font-size: 15px; }
+
+/* Tray spacing and icon size */
+#tray { padding-left: 8px; }
+#tray .tray-item, #tray .tray-item img {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-#battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
-    animation-name: blink;
-    /* animation-duration: 0.5s; */
-    animation-duration: 3.0s;
-    /* animation-timing-function: linear; */
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+/* Ensure simple text spans inside modules keep the module font-size */
+.modules-right .module span,
+.modules-right .module .label {
+  font-size: 14px;
 }
 
-
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
+/* Cava module spacing & sizing */
+#cava {
+  margin-left: 14px;    /* push a bit away from the previous modules */
+  padding-left: 8px;
+  padding-right: 6px;
+  min-width: 140px;     /* give it some horizontal room for many bars */
 }
 
-/* Workspace styling */
-#workspaces {
-    padding: 1;
-}
-
-#workspaces button {
-  padding: 0px 2px;
-    margin: 0 1px;
-    border-radius: 6px;
-    background-color: transparent;
-    color: #888888;
-    border: 0px solid #444444;
-    transition: all 0.3s ease;
-  min-height: 0px;
-}
-
-#workspaces button.focused {
-    background-color: #7a0000;
-    color: #ffffff;
-    border: 1px solid #4a0000;
-    font-weight: bold;
-  padding: 0px 6px;
-  min-height: 0px;
-}
-
-#workspaces button.urgent {
-    background-color: #900000;
-    color: #ffffff;
-    border: 1px solid #ff0000;
-}
-
-#workspaces button:hover {
-    background-color: #333333;
-    color: #ffffff;
-}
-
-/* Gammastep styling to match other elements */
-#custom-gammastep {
-    padding: 0 5px;
-    font-size: 16px;
-    color: #B0B0B0;
+#cava .module,
+#cava .module span {
+  font-family: "JetBrainsMono Nerd Font Mono", "FiraCode Nerd Font", monospace;
+  font-size: 14px;
 }

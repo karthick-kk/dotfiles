@@ -1,13 +1,68 @@
 {
   "layer": "top", "position": "top",
-  "modules-left": ["custom/logo", "sway/window"],
-  "modules-center": ["sway/workspaces"],
-  "modules-right": ["custom/gammastep", "cpu", "temperature", "memory", "pulseaudio", "bluetooth", "clock", "network", "custom/network-traffic", "tray"],
+  "modules-left": ["custom/logo", "custom/firefox", "custom/ferdium", "custom/spotify", "custom/files", "cava"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["custom/c", "cpu", "temperature", "memory", "pulseaudio", "bluetooth", "clock", "custom/network-traffic", "tray", "group/group-power"],
   "reload_style_on_change":true,
 
+  "cava": {
+      "format": "{bars}",
+      "format-alt": "{bars}",
+      "markup": "pango",
+      "bars": 16,
+      "format-icons": [
+          "<span color='#ff6b6b'>▁</span>",
+          "<span color='#ff7f50'>▂</span>",
+          "<span color='#ffb86b'>▃</span>",
+          "<span color='#ffd580'>▄</span>",
+          "<span color='#fff58a'>▅</span>",
+          "<span color='#b4e07a'>▆</span>",
+          "<span color='#5fe0a1'>▇</span>",
+          "<span color='#69ff94'>█</span>"
+      ],
+      "method": "pipewire", 
+      "input_delay": 4, 
+      "bar_delimiter": 0
+  },
+
   "custom/logo": {
-  "format": "<span font='16'></span>",
-    "tooltip": false
+    "format": "<span font='24'>󰣇 </span>",
+    "markup": "pango",
+    "tooltip": "Arch Linux",
+    "on-click": "wofi --show=drun",
+    "tooltip-format": "Launcher"
+  },
+
+  "custom/firefox": {
+    "format": "<span font='24'> </span>",
+    "markup": "pango",
+    "tooltip": "Firefox",
+    "on-click": "setsid firefox >/dev/null 2>&1 &",
+    "tooltip-format": "Launch Firefox"
+  },
+
+  "custom/ferdium": {
+    "format": "<span font='16'>  </span>",
+    "markup": "pango",
+    "tooltip": "Ferdium",
+    "on-click": "setsid /usr/bin/ferdium --ozone-platform=wayland --enable-features=UseOzonePlatform >/dev/null 2>&1 &",
+    "tooltip-format": "Launch Ferdium"
+  },
+
+  "custom/spotify": {
+    "format": "<span font='24'> </span>",
+    "markup": "pango",
+    "tooltip": "Spotify",
+    "on-click": "LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify >/dev/null 2>&1 &",
+    "tooltip-format": "Launch Spotify"
+  },
+
+  "custom/files": {
+    "format": "<span font='24'> </span>",
+    "markup": "pango",
+    "tooltip": "Files",
+    "on-click": "nautilus",
+    "tooltip-format": "Launch Nautilus"
   },
 
   "sway/workspaces": {
@@ -51,6 +106,41 @@
   "interval":86400
 },
 
+"group/group-power": {
+    "orientation": "inherit",
+    "drawer": {
+        "transition-duration": 500,
+        "children-class": "not-power",
+        "transition-left-to-right": false
+    },
+    "modules": [
+        "custom/power",
+        "custom/quit",
+        "custom/lock",
+        "custom/reboot"
+    ]
+},
+"custom/quit": {
+    "format": "<span font='18'>󰗼</span>",
+    "tooltip": false,
+    "on-click": "hyprctl dispatch exit"
+},
+"custom/lock": {
+    "format": "<span font='18'>󰍁</span>",
+    "tooltip": false,
+    "on-click": ""
+},
+"custom/reboot": {
+    "format": "<span font='18'>󰜉</span>",
+    "tooltip": false,
+    "on-click": "reboot"
+},
+"custom/power": {
+    "format": "<span font='18'></span>",
+    "tooltip": false,
+    "on-click": "shutdown now"
+},
+
 
 "clock": {
       "format": "{:%I:%M:%S %p}",
@@ -64,7 +154,8 @@
       },
 
   "bluetooth": {
-  "format-on": "",
+  "format-on": "<span font='14'></span>",
+  "markup": "pango",
   "format-off": "",
   "format-disabled": "󰂲",
   "format-connected": "{device_alias} 󰂴",
@@ -109,6 +200,7 @@
 "backlight": {
   "device": "intel_backlight",
   "format": "<span font='12'>{icon}</span>",
+  "markup": "pango",
   "format-icons": [
     "",
     "",
@@ -141,19 +233,28 @@
     "signal": 1
   },
 
-  "cpu": {
-  "interval": 1,
-  "format": " {usage}%",
-      "min-length": 6,
-      "max-length": 6,
-      "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
-  },
-
-"memory": {
-  "format": " {percentage}%"
+"cpu": {
+     "interval": 1,
+     "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+     "format-icons": [
+          "<span color='#69ff94'>▁</span>", 
+          "<span color='#2aa9ff'>▂</span>", 
+          "<span color='#f8f8f2'>▃</span>", 
+          "<span color='#f8f8f2'>▄</span>",
+          "<span color='#ffffa5'>▅</span>",
+          "<span color='#ffffa5'>▆</span>",
+          "<span color='#ff9977'>▇</span>", 
+          "<span color='#dd532e'>█</span>" 
+     ]
 },
 
- "sway/window": {
+"memory": {
+    "interval": 30,
+    "format": "{}% ",
+    "max-length": 10
+},
+
+"sway/window": {
     "format": "( {class} )",
     "rewrite": {
          "(.*) - Mozilla Firefox": "🌎 $1",
@@ -165,14 +266,24 @@
   "format": " {temperatureC}°C",            
   "format-critical": " {temperatureC}°C",
   "interval": 1,
-  "critical-threshold": 80,
+  "hwmon-path": "/sys/devices/platform/nct6775.2592/hwmon/hwmon2/temp2_input",
+  "critical-threshold": 70,
   "on-click": "foot btop"
  },
+
+"wireplumber": {
+    "format": "{volume}% {icon}",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": ["", "", ""]
+},
+
+
 
 "pulseaudio": {
   "format": "{volume}% {icon}",
   "format-bluetooth":"󰂰",
-  "format-muted": "<span font='12'></span>",
+  "format-muted": "<span font='14'></span>",
   "format-icons": {
     "headphones": "",
     "bluetooth": "󰥰",
@@ -215,8 +326,9 @@
     "return-type": "json"
   },
 
-  "custom/gammastep": {
-  "format": "{}",
+  "custom/c": {
+  "format": "<span font='20'>{}</span>",
+  "markup": "pango",
   "exec": "if pgrep -x gammastep > /dev/null; then echo '󰖨'; else echo '󰍹'; fi",
   "interval": 5,
   "on-click": "~/.config/sway/gammastep_toggle.sh"
@@ -229,11 +341,31 @@
     "markup": "pango"
   },
 
-  "custom/workspaces": {
-  "format": "{}",
-  "exec": "~/.config/waybar/scripts/workspace_status.sh",
-  "interval": 1
-}
+  "hyprland/workspaces": {
+    "format": "{icon}{windows}",
+    "markup": "pango",
+    "format-icons": {
+      "active": "",
+      "empty": "",
+      "default": "",
+      "persistent": "",
+      "urgent": "",
+      "focused": ""
+    },
+    "format-window-separator": "",
+    "window-rewrite-default": "",
+    "persistent-workspaces": { "*": 10 },
+    "show-all-workspaces": true,
+    "on-click": "activate",
+    "workspace-taskbar": {
+      "enable": true,
+      "update-active-window": true,
+      "format": "{icon}",
+      "icon-size": 26,
+      "icon-theme": "some_icon_theme",
+      "orientation": "horizontal"
+    }
+  }
 
 }
 
