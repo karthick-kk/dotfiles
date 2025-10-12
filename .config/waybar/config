@@ -343,7 +343,10 @@
 
   "hyprland/workspaces": {
     "format": "{icon}{windows}",
+    // "format": "{icon}",
     "markup": "pango",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
     "format-icons": {
       "active": "",
       "empty": "",

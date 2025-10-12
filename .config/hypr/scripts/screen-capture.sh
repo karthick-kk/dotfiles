@@ -11,26 +11,29 @@ timestamp() {
 
 IMG="$SCREEN_DIR/$(timestamp).png"
 
+copy_to_clipboard() {
+  # Copy to both Wayland and X11 clipboards for maximum compatibility
+  wl-copy --type image/png <"$1"
+  xclip -selection clipboard -t image/png -i "$1" 2>/dev/null || true
+}
+
 case "${1:-full}" in
   full)
-    # Capture entire compositor framebuffer (all outputs)
-    grim "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+    grim "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     ;;
   display)
-    # Capture monitor of the active window (fallback to first monitor)
     if command -v hyprctl >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
       mon_id=$(hyprctl activewindow -j 2>/dev/null | jq -r '.monitor // empty')
       mon_name=$(hyprctl monitors -j 2>/dev/null | jq -r ".[] | select(.id==((${mon_id:-0}))) | .name" 2>/dev/null || echo "")
       if [ -n "$mon_name" ]; then
         grim -o "$mon_name" "$IMG" 2>/tmp/grim_err.log || grim "$IMG"
-        wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+        copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
         exit 0
       fi
     fi
-    grim "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+    grim "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     ;;
   focused)
-    # Capture the focused window using hyprctl geometry
     if command -v hyprctl >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
       aw_json=$(hyprctl activewindow -j 2>/dev/null || echo "{}")
       atx=$(echo "$aw_json" | jq -r '.at[0] // empty')
@@ -39,37 +42,33 @@ case "${1:-full}" in
       h=$(echo "$aw_json" | jq -r '.size[1] // empty')
       if [ -n "$atx" ] && [ -n "$aty" ] && [ -n "$w" ] && [ -n "$h" ]; then
         geom="${w}x${h}+${atx}+${aty}"
-        grim -g "$geom" "$IMG" 2>/tmp/grim_err.log && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG" && exit 0
+        grim -g "$geom" "$IMG" 2>/tmp/grim_err.log && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG" && exit 0
       fi
     fi
-    # fallback to full if focused geometry unavailable
-    grim "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+    grim "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     ;;
   selection)
-    # Interactive selection copied to clipboard
     geom=$(slurp 2>/dev/null || echo "")
     if [ -n "$geom" ]; then
-      grim -g "$geom" "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+      grim -g "$geom" "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     else
       notify-send "Selection cancelled" "No area selected"
     fi
     ;;
   swappy)
-    # Interactive selection and open swappy for editing
     geom=$(slurp 2>/dev/null || echo "")
     if [ -n "$geom" ]; then
-      grim -g "$geom" "$IMG" && swappy -f "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+      grim -g "$geom" "$IMG" && swappy -f "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     else
       notify-send "Selection cancelled" "No area selected"
     fi
     ;;
   *)
-    # Default: open selection GUI via slurp/flameshot bridging (if needed)
     geom=$(slurp 2>/dev/null || echo "")
     if [ -n "$geom" ]; then
-      grim -g "$geom" "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+      grim -g "$geom" "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     else
-      grim "$IMG" && wl-copy <"$IMG" && notify-send "Screenshot saved" "$IMG"
+      grim "$IMG" && copy_to_clipboard "$IMG" && notify-send "Screenshot saved" "$IMG"
     fi
     ;;
 esac
