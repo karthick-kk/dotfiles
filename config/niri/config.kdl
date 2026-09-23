@@ -103,13 +103,24 @@ window-rule {
     open-on-workspace "10"
 }
 
-// Rounded windows for all apps (native equivalent of
-// Nathanaelrc/rounded-windows): geometry-corner-radius sets the radius,
-// clip-to-geometry true force-rounds the window CONTENT — without it only the
-// border/glow round. No `match` -> applies to every app.
+// State-dependent corner radius for all apps (native equivalent of
+// Nathanaelrc/rounded-windows, but focus-aware): the focused window keeps its
+// rounded corners, unfocused windows go square. geometry-corner-radius sets
+// the radius; clip-to-geometry force-rounds the window CONTENT, not just the
+// border/glow. is-active matches the xdg Activated state, and niri
+// re-evaluates window-rules on every focus change, so this flips live.
+// corners, unfocused windows go square. is-active matches the xdg Activated
+// state, and niri re-evaluates window-rules on every focus change, so this
+// flips live when focus moves.
 window-rule {
+    match is-active=true
     geometry-corner-radius 14
     clip-to-geometry true
+}
+window-rule {
+    match is-active=false
+    geometry-corner-radius 0
+    clip-to-geometry false
 }
 window-rule {
     // Enpass (snap) — always floating. Snap app-id is "<snap>_<app>" =
