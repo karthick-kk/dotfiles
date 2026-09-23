@@ -114,7 +114,8 @@ window-rule {
 // flips live when focus moves.
 window-rule {
     match is-active=true
-    geometry-corner-radius 14
+    // Top corners only (TL TR BR BL) — bottom stays square.
+    geometry-corner-radius 14 14 0 0
     clip-to-geometry true
 }
 window-rule {
