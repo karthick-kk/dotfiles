@@ -1,5 +1,5 @@
 // Niri config - migrated from sway
-// Config is live-reloaded on save. Show keybinds: Mod+Shift+/
+// Config is live-reloaded on save. Show keybinds: Mod+/
 
 // Layout: 4px gaps + 2px teal border on focus
 layout {
@@ -103,11 +103,13 @@ window-rule {
     open-on-workspace "10"
 }
 
-// Window corner roundness in logical px (1 value = all corners, or 4 values
-// TL TR BR BL). 0 = square (niri default). No `match` -> applies to all
-// windows. Border + glow shadow follow this geometry.
+// Rounded windows for all apps (native equivalent of
+// Nathanaelrc/rounded-windows): geometry-corner-radius sets the radius,
+// clip-to-geometry true force-rounds the window CONTENT — without it only the
+// border/glow round. No `match` -> applies to every app.
 window-rule {
-    geometry-corner-radius 0
+    geometry-corner-radius 14
+    clip-to-geometry true
 }
 window-rule {
     // Enpass (snap) — always floating. Snap app-id is "<snap>_<app>" =
@@ -134,7 +136,7 @@ window-rule {
 // and apps launch slowly.
 spawn-at-startup "lxpolkit"
 spawn-at-startup "dunst"
-spawn-at-startup "swaybg" "-m" "fill" "-i" "/home/kk/Downloads/snow-mountains-3840x2160-25876(1).jpg"
+spawn-at-startup "swaybg" "-m" "fill" "-i" "/home/kk/Downloads/ericsson-trim.png"
 spawn-at-startup "/usr/bin/gnome-keyring-daemon" "--start" "--components=secrets,ssh,pkcs11"
 // dotfriedrice bar backends. mpd runs as a systemd user service (enabled);
 // mpd-mpris after a beat, elephant + walker service for the launcher.
@@ -155,7 +157,7 @@ spawn-at-startup "cairo-dock"
 // -> power-off-monitors. niri auto powers the DPMS-off monitors back on on the
 // next real input (key/mouse/touch). Manual overrides: Mod+Shift+O / Mod+Shift+P.
 
-// Hide the keybind cheat-sheet popup at login (press Mod+Shift+/ anytime)
+// Hide the keybind cheat-sheet popup at login (press Mod+/ anytime)
 hotkey-overlay {
     skip-at-startup
 }
@@ -289,8 +291,9 @@ binds {
     // Area screenshot to file + clipboard (sway's Shift+Print)
     Shift+Print { spawn-sh "slurp -o | grim -g - - | tee ~/Pictures/$(date +%s).png | wl-copy"; }
 
-    // Show keybind cheat sheet
-    Mod+Shift+Slash { show-hotkey-overlay; }
+    // Show keybind cheat sheet (custom — parses live config.kdl;
+    // niri's built-in hotkey-overlay only lists inbuilt actions)
+    Mod+Slash { spawn "/home/kk/.config/niri/keybinds-help.sh"; }
 
     // Escape hatch if an app grabs all shortcuts (e.g. remote desktop)
     Mod+Shift+I { toggle-keyboard-shortcuts-inhibit; }
