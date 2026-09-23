@@ -104,8 +104,8 @@ window-rule {
 }
 
 // State-dependent corner radius for all apps (native equivalent of
-// Nathanaelrc/rounded-windows, but focus-aware): the focused window keeps its
-// rounded corners, unfocused windows go square. geometry-corner-radius sets
+// Nathanaelrc/rounded-windows, but focus-aware): the focused window's TOP
+// corners are rounded, unfocused windows go fully square. geometry-corner-radius sets
 // the radius; clip-to-geometry force-rounds the window CONTENT, not just the
 // border/glow. is-active matches the xdg Activated state, and niri
 // re-evaluates window-rules on every focus change, so this flips live.
